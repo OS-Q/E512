@@ -6,13 +6,12 @@
 
 ### [Framework描述](https://github.com/OS-Q/N13/wiki) 
 
-[Framework N13](https://github.com/OS-Q/N13) 用于支持ESP8266平台运行，基于Espressif [ESP8266_NONOS_SDK](https://github.com/espressif/ESP8266_NONOS_SDK)
+[Framework N13](https://github.com/OS-Q/N13) 用于支持ESP8266平台运行，本仓库针对自动化导入编程进行优化，可能会牺牲部分可阅读性，学习使用本资源细节建议参考原工程 https://github.com/espressif/ESP8266_NONOS_SDK
 
 ### [关联资源](https://github.com/OS-Q/)
 
- *  [ Platform : ESP8266](https://github.com/OS-Q/H8) 
+ *  [ Platform  H8](https://github.com/OS-Q/H8) 
 *   [Framework N13](https://github.com/OS-Q/N13)
- *  [ M4](https://github.com/OS-Q/M4) 
 
 ### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/N13)
 ####  2019-9-6
