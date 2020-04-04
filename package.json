@@ -1,7 +1,7 @@
 {
-  "description" : "ESP8266 NONOS SDK Framework N13",
   "name": "framework-N13",
+  "description" : "ESP8266 NONOS SDK Framework N13",
   "system": "*",
-  "url": "https://github.com/espressif/ESP8266_NONOS_SDK",
-  "version": "3.0.1"
+  "url": "https://github.com/OS-Q/N13",
+  "version": "2.1.0"
 }
