@@ -1,6 +1,6 @@
 {
+  "name": "N15",
   "description" : "ESP8266 SDK",
-  "name": "framework-esp8266-nonos-sdk",
   "system": "*",
   "url": "https://github.com/OS-Q/N15",
   "version": "2.1.1"
