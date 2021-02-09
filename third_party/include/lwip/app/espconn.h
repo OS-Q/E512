@@ -121,6 +121,7 @@ enum espconn_option{
 	ESPCONN_NODELAY = 0x02,
 	ESPCONN_COPY = 0x04,
 	ESPCONN_KEEPALIVE = 0x08,
+	ESPCONN_MANUALRECV     = 0x10,
 	ESPCONN_END
 };
 
@@ -190,6 +191,7 @@ typedef struct _espconn_msg{
 	uint8 recv_hold_flag;
 	uint16 recv_holded_buf_Len;
 //*******************************************************
+	uint8 close_flag;
 	ringbuf *readbuf;
 }espconn_msg;
 

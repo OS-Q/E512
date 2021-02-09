@@ -1,3 +1,4 @@
+
 /*
  * ESPRESSIF MIT License
  *
@@ -21,22 +22,30 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-#ifndef __SDIO_SLAVE_H__
-#define __SDIO_SLAVE_H__
 #include "ets_sys.h"
-#include "c_types.h"
+#ifndef __hw_timer_H__
+#define __hw_timer_H__
+//TIMER PREDIVED MODE
+typedef enum {
+    DIVDED_BY_1 = 0,        //timer clock
+    DIVDED_BY_16 = 4,    //divided by 16
+    DIVDED_BY_256 = 8,    //divided by 256
+} time_predived_mode;
 
-#include "user_interface.h"
+typedef enum {            //timer interrupt mode
+    TM_LEVEL_INT = 1,    // level interrupt
+    TM_EDGE_INT   = 0,    //edge interrupt
+} time_int_mode;
 
-#define RX_AVAILIBLE   2
-#define TX_AVAILIBLE   1
-#define INIT_STAGE     0
+typedef enum {
+    FRC1_SOURCE = 0,
+    NMI_SOURCE = 1,
+} frc1_timer_source_type;
 
-void sdio_slave_init(void);
 
-int32_t sdio_load_data(const uint8_t *data, uint32_t len);
-typedef void (*sdio_recv_data_callback_t)(uint8_t *data, uint32_t len);
+void  hw_timer_init(frc1_timer_source_type source_type, uint8_t req);
 
-bool sdio_register_recv_cb(sdio_recv_data_callback_t cb);
+void  hw_timer_set_func(void (* user_hw_timer_cb_set)(void)) ;
+void  hw_timer_arm(uint32_t val) ;
+
 #endif
