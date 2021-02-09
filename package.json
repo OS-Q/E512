@@ -1,7 +1,7 @@
 {
-  "name": "N15",
+  "name": "N51",
   "description" : "ESP8266 SDK",
   "system": "*",
-  "url": "https://github.com/OS-Q/N15",
+  "url": "https://github.com/OS-Q/N51",
   "version": "2.1.1"
 }
