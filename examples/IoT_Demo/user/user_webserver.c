@@ -21,7 +21,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-#include "stdlib.h"
 
 #include "ets_sys.h"
 #include "os_type.h"
@@ -46,7 +45,6 @@
 
 #if LIGHT_DEVICE
 #include "user_light.h"
-#include "user_light_adj.h"
 #endif
 
 LOCAL struct station_config *sta_conf;
@@ -68,8 +66,6 @@ uint8 upgrade_lock = 0;
 LOCAL os_timer_t app_upgrade_10s;
 LOCAL os_timer_t upgrade_check_timer;
 
-extern uint32 priv_param_start_sec;
-void ICACHE_FLASH_ATTR system_upgrade_erase_flash(uint32 length);
 /******************************************************************************
  * FunctionName : device_get
  * Description  : set up the device information parmer as a JSON format
@@ -1676,7 +1672,8 @@ webserver_recv(void *arg, char *pusrdata, unsigned short length)
                             response_send(ptrespconn, true);
                             extern  struct esp_platform_saved_param esp_param;
                             esp_param.activeflag = 0;
-                            system_param_save_with_protect(priv_param_start_sec + 1, &esp_param, sizeof(esp_param));
+                            system_param_save_with_protect(ESP_PARAM_START_SEC, &esp_param, sizeof(esp_param));
+                            
                             system_restore();
                             system_restart();
                     }

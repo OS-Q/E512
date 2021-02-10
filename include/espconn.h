@@ -123,7 +123,6 @@ enum espconn_option{
 	ESPCONN_NODELAY = 0x02,
 	ESPCONN_COPY = 0x04,
 	ESPCONN_KEEPALIVE = 0x08,
-	ESPCONN_MANUALRECV     = 0x10,
 	ESPCONN_END
 };
 
@@ -645,14 +644,6 @@ sint8 espconn_recv_hold(struct espconn *pespconn);
  * Returns      : none
 *******************************************************************************/
 sint8 espconn_recv_unhold(struct espconn *pespconn);
-
-/******************************************************************************
- * FunctionName : espconn_recved_len
- * Description  : get TCP readable data bytes
- * Parameters   : espconn -- espconn to unhold
- * Returns      : result
-*******************************************************************************/
-sint16 espconn_recved_len(struct espconn *espconn);
 
 /******************************************************************************
  * FunctionName : espconn_mdns_init

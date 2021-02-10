@@ -28,15 +28,12 @@
 #include "mem.h"
 #include "user_interface.h"
 
-#include "user_light_adj.h"
 #include "user_light.h"
 #include "pwm.h"
 
 #if LIGHT_DEVICE
 
 struct light_saved_param light_param;
-
-extern uint32 priv_param_start_sec;     //0x3D
 
 /******************************************************************************
  * FunctionName : user_light_get_duty
@@ -98,8 +95,8 @@ user_light_set_period(uint32 period)
 void ICACHE_FLASH_ATTR
 user_light_restart(void)
 {
-	spi_flash_erase_sector(priv_param_start_sec + PRIV_PARAM_SAVE);
-	spi_flash_write((priv_param_start_sec + PRIV_PARAM_SAVE) * SPI_FLASH_SEC_SIZE,
+	spi_flash_erase_sector(PRIV_PARAM_START_SEC + PRIV_PARAM_SAVE);
+	spi_flash_write((PRIV_PARAM_START_SEC + PRIV_PARAM_SAVE) * SPI_FLASH_SEC_SIZE,
 	    		(uint32 *)&light_param, sizeof(struct light_saved_param));
 
 	pwm_start();
@@ -114,7 +111,7 @@ user_light_restart(void)
 void ICACHE_FLASH_ATTR
 user_light_init(void)
 {
-    spi_flash_read((priv_param_start_sec + PRIV_PARAM_SAVE) * SPI_FLASH_SEC_SIZE,
+    spi_flash_read((PRIV_PARAM_START_SEC + PRIV_PARAM_SAVE) * SPI_FLASH_SEC_SIZE,
                                (uint32 *)&light_param, sizeof(struct light_saved_param));
     if(light_param.pwm_period>10000 || light_param.pwm_period <1000){
             light_param.pwm_period = 1000;

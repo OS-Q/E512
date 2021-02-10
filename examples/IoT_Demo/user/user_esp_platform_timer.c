@@ -21,7 +21,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-#include "stdlib.h"
 
 #include "ets_sys.h"
 #include "os_type.h"
@@ -60,7 +59,7 @@ struct wait_param {
 };
 
 void esp_platform_timer_action(struct esp_platform_wait_timer_param   *timer_wait_param, uint16 count);
-int ICACHE_FLASH_ATTR indexof(char *p1, char *p2, int start);
+
 /******************************************************************************
  * FunctionName : split
  * Description  : split string p1 according to sting p2 and save the splits
@@ -229,11 +228,11 @@ user_esp_platform_device_action(struct wait_param *pwait_action)
     for (i = 0; i < action_number && pwait_action->action[i][0] != '0'; i++) {
         ESP_DBG("%s\n",pwait_action->action[i]);
 
-        if (os_strncmp(pwait_action->action[i], "on_switch", 9) == 0) {
+        if (os_strcmp(pwait_action->action[i], "on_switch", 9) == 0) {
             user_plug_set_status(0x01);
-        } else if (os_strncmp(pwait_action->action[i], "off_switch", 10) == 0) {
+        } else if (os_strcmp(pwait_action->action[i], "off_switch", 10) == 0) {
             user_plug_set_status(0x00);
-        } else if (os_strncmp(pwait_action->action[i], "on_off_switch", 13) == 0) {
+        } else if (os_strcmp(pwait_action->action[i], "on_off_switch", 13) == 0) {
             if (user_plug_get_status() == 0) {
                 user_plug_set_status(0x01);
             } else {

@@ -160,6 +160,7 @@ SECTIONS
     *libespnow.a:(.literal.* .text.*)
     *libjson.a:(.literal.* .text.*)
     *liblwip.a:(.literal.* .text.*)
+    *libmesh.a:(.literal.* .text.*)
     *libnet80211.a:(.literal.* .text.*)
     *libsmartconfig.a:(.literal.* .text.*)
     *libssl.a:(.literal.* .text.*)

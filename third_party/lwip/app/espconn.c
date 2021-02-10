@@ -442,7 +442,6 @@ sint16 ICACHE_FLASH_ATTR espconn_recv(struct espconn *espconn, void *mem, size_t
 	espconn_msg *pnode = NULL;
 	bool value = false;
 	int bytes_used = 0;
-	struct tcp_pcb *tpcb = NULL;
 	if (espconn == NULL || mem == NULL || len == 0)
 		return ESPCONN_ARG;
 
@@ -456,39 +455,16 @@ sint16 ICACHE_FLASH_ATTR espconn_recv(struct espconn *espconn, void *mem, size_t
 					len = bytes_used;
 				}
 				ringbuf_memcpy_from(mem, pnode->readbuf, len);
-				tpcb = pnode->pcommon.pcb;
-				if (tpcb && tpcb->state == ESTABLISHED)
-				    tcp_recved(pnode->pcommon.pcb, len);
+				espconn_recv_unhold(pnode->pespconn);
 				return len;
 			} else {
 				return ESPCONN_OK;
 			}
 		} else{
-			return ESPCONN_MEM;
+			return ESPCONN_OK;
 		}
 	} else{
 		return ESPCONN_ARG;
-	}
-
-	return ESPCONN_ARG;
-}
-
-sint16 ICACHE_FLASH_ATTR espconn_recved_len(struct espconn *espconn)
-{
-	espconn_msg *pnode = NULL;
-	bool value = false;
-
-	if (espconn == NULL)
-		return ESPCONN_ARG;
-
-	/*Find the node depend on the espconn message*/
-	value = espconn_find_connection(espconn, &pnode);
-	if (value && espconn->type == ESPCONN_TCP){
-		if (pnode->readbuf != NULL){
-			return (sint16)ringbuf_bytes_used(pnode->readbuf);
-		} else{
-			return 0;
-		}
 	}
 
 	return ESPCONN_ARG;
@@ -897,9 +873,7 @@ espconn_get_connection_info(struct espconn *pespconn, remot_info **pcon_info, ui
 					premot[pespconn->link_cnt].state = plist->pespconn->state;
 					premot[pespconn->link_cnt].remote_port = plist->pcommon.remote_port;
 					os_memcpy(premot[pespconn->link_cnt].remote_ip,	plist->pcommon.remote_ip, 4);
-					if (!plist->close_flag) {
-					    pespconn->link_cnt ++;
-					}
+					pespconn->link_cnt ++;
 				}
 				plist = plist->pnext;
 			}
@@ -1129,8 +1103,6 @@ espconn_set_opt(struct espconn *espconn, uint8 opt)
 	if (value) {
 		pnode->pcommon.espconn_opt |= opt;
 		tpcb = pnode->pcommon.pcb;
-		if (NULL == tpcb)
-			return ESPCONN_OK;
 		if (espconn_delay_disabled(pnode))
 			tcp_nagle_disable(tpcb);
 
@@ -1167,8 +1139,6 @@ espconn_clear_opt(struct espconn *espconn, uint8 opt)
 	if (value) {
 		pnode->pcommon.espconn_opt &= ~opt;
 		tpcb = pnode->pcommon.pcb;
-		if (NULL == tpcb)
-			return ESPCONN_OK;
 		if (espconn_keepalive_enabled(pnode))
 			espconn_keepalive_disable(tpcb);
 
@@ -1204,8 +1174,6 @@ sint8 ICACHE_FLASH_ATTR espconn_set_keepalive(struct espconn *espconn, uint8 lev
 	value = espconn_find_connection(espconn, &pnode);
 	if (value && espconn_keepalive_disabled(pnode)) {
 		struct tcp_pcb *pcb = pnode->pcommon.pcb;
-		if (NULL == pcb)
-			return ESPCONN_OK;
 		switch (level){
 			case ESPCONN_KEEPIDLE:
 				pcb->keep_idle = 1000 * (u32_t)(*(int*)optarg);
@@ -1251,8 +1219,6 @@ sint8 ICACHE_FLASH_ATTR espconn_get_keepalive(struct espconn *espconn, uint8 lev
 	value = espconn_find_connection(espconn, &pnode);
 	if (value && espconn_keepalive_disabled(pnode)) {
 		struct tcp_pcb *pcb = pnode->pcommon.pcb;
-		if (NULL == pcb)
-			return ESPCONN_OK;
 		switch (level) {
 		case ESPCONN_KEEPIDLE:
 			*(int*)optarg = (int)(pcb->keep_idle/1000);

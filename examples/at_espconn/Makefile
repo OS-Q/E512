@@ -34,10 +34,6 @@ LDDIR = ../ld
 
 CCFLAGS += -Os
 
-ifdef ESP_AT_FW_VERSION
-CCFLAGS += -DESP_AT_FW_VERSION=\"$(ESP_AT_FW_VERSION)\"
-endif
-
 TARGET_LDFLAGS =		\
 	-nostdlib		\
 	-Wl,-EL \
@@ -77,12 +73,11 @@ LINKFLAGS_eagle.app.v6 = \
 	-lnet80211	\
 	-llwip	\
 	-lwpa	\
-	-lwpa2	\
 	-lcrypto	\
 	-lmain	\
 	-ljson	\
 	-lupgrade	\
-	-lmbedtls		\
+	-lssl		\
 	-lwps		\
 	-lsmartconfig	\
 	-lairkiss		\
@@ -113,8 +108,7 @@ DEPENDS_eagle.app.v6 = \
 #	-DTXRX_TXBUF_DEBUG
 #	-DTXRX_RXBUF_DEBUG
 #	-DWLAN_CONFIG_CCX
-CONFIGURATION_DEFINES =	-DICACHE_FLASH -DUSE_OPTIMIZE_PRINTF
-
+CONFIGURATION_DEFINES =	-DICACHE_FLASH
 ifdef AT_OPEN_SRC
 CONFIGURATION_DEFINES +=    \
 	-DAT_OPEN_SRC
@@ -124,10 +118,6 @@ ifeq ($(APP),0)
 else
 CONFIGURATION_DEFINES +=    \
 	-DAT_UPGRADE_SUPPORT
-endif
-
-ifeq ($(SPI_SIZE_MAP),5)
-CONFIGURATION_DEFINES += -DFLASH_MAP=$(SPI_SIZE_MAP)
 endif
 
 DEFINES +=				\
