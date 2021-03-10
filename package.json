@@ -1,7 +1,7 @@
 {
-  "name": "N51",
-  "description" : "ESP8266 SDK",
+  "name": "E51A",
+  "description" : "ESP8266 NONOS SDK",
   "system": "*",
-  "url": "https://github.com/OS-Q/N51",
+  "url": "https://github.com/espressif/ESP8266_NONOS_SDK",
   "version": "2.1.0"
 }
